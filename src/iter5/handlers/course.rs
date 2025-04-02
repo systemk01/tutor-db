@@ -113,7 +113,7 @@ mod tests {
         }
     }
 
-    #[ignore]
+    //#[ignore]
     #[actix_rt::test]
     async fn post_course_success() {
         dotenv().ok();
@@ -168,7 +168,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
-    #[ignore]
+    //#[ignore]
     #[actix_rt::test]
     async fn delete_test_success() {
         dotenv().ok();
@@ -179,7 +179,7 @@ mod tests {
             visit_count: Mutex::new(0),
             db: pool,
         });
-        let params = web::Path::from((1, 5));
+        let params = web::Path::from((1, 3));
         let resp = delete_course(app_state, params).await.unwrap();
         assert_eq!(resp.status(), StatusCode::OK);
     }
