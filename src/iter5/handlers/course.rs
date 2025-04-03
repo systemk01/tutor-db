@@ -54,7 +54,6 @@ pub async fn delete_course(
         .map(|resp| HttpResponse::Ok().json(resp))
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;

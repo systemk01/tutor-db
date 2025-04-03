@@ -24,12 +24,15 @@ pub async fn get_course_details_db(
     course_id: i32,
 ) -> Result<Course, EzyTutorError> {
     //prepare sql statement
-    let course_row = sqlx::query_as!(Course,
-        "SELECT * FROM ezy_course_c6 WHERE tutor_id = $1 AND course_id = $2", tutor_id, course_id
+    let course_row = sqlx::query_as!(
+        Course,
+        "SELECT * FROM ezy_course_c6 WHERE tutor_id = $1 AND course_id = $2",
+        tutor_id,
+        course_id
     )
     .fetch_optional(pool)
     .await?;
-    if let Some(course) = course_row{
+    if let Some(course) = course_row {
         Ok(course)
     } else {
         Err(EzyTutorError::NotFound("Course id not found".into()))
@@ -41,7 +44,8 @@ pub async fn post_new_course_db(
     new_course: CreateCourse,
 ) -> Result<Course, EzyTutorError> {
     //posted time is not set, because in database.sql it is set to posted_time TIMESTAMP default now()
-    let course_row = sqlx::query_as!(Course,
+    let course_row = sqlx::query_as!(
+        Course,
         "INSERT INTO ezy_course_c6 
         (tutor_id, course_name, course_description, course_duration, 
         course_level, course_format, course_language, course_structure,
@@ -49,11 +53,16 @@ pub async fn post_new_course_db(
         returning tutor_id, course_id, course_name, course_description, 
         course_duration, course_level, course_format, course_language, 
         course_structure, course_price, posted_time",
-        new_course.tutor_id, new_course.course_name,
-        new_course.course_description, new_course.course_duration,
-        new_course.course_level, new_course.course_format, 
-        new_course.course_language, new_course.course_structure, 
-        new_course.course_price)
+        new_course.tutor_id,
+        new_course.course_name,
+        new_course.course_description,
+        new_course.course_duration,
+        new_course.course_level,
+        new_course.course_format,
+        new_course.course_language,
+        new_course.course_structure,
+        new_course.course_price
+    )
     .fetch_one(pool)
     .await?;
     //returning Course
@@ -66,7 +75,9 @@ pub async fn delete_course_db(
 ) -> Result<String, EzyTutorError> {
     //Prepare SQL Statement
     let course_row = sqlx::query!(
-        "DELETE FROM ezy_course_c6 WHERE tutor_id = $1 AND course_id = $2", tutor_id, course_id,
+        "DELETE FROM ezy_course_c6 WHERE tutor_id = $1 AND course_id = $2",
+        tutor_id,
+        course_id,
     )
     .execute(pool)
     .await?;
@@ -83,11 +94,13 @@ pub async fn update_course_details_db(
 
     let current_course_row = sqlx::query_as!(
         Course,
-        "SELECT * FROM ezy_course_c6 WHERE tutor_id = $1 AND course_id = $2", tutor_id, course_id,
+        "SELECT * FROM ezy_course_c6 WHERE tutor_id = $1 AND course_id = $2",
+        tutor_id,
+        course_id,
     )
     .fetch_one(pool)
     .await
-    .map_err(|err|EzyTutorError::NotFound("Course id not found".into()))?;
+    .map_err(|err| EzyTutorError::NotFound("Course id not found".into()))?;
 
     //Construct the parameters for update
 
@@ -133,8 +146,7 @@ pub async fn update_course_details_db(
     };
 
     //Prepare SQL Statement
-    let course_row =
-        sqlx::query_as!(
+    let course_row = sqlx::query_as!(
         Course,
         "UPDATE ezy_course_c6 SET course_name = $1,
         course_description = $2, course_format = $3,
@@ -145,14 +157,22 @@ pub async fn update_course_details_db(
         course_name, course_description, course_duration, course_level,
         course_format,
         course_language, course_structure, course_price, posted_time ",
-        name, description, format,
-        structure, duration, price, language,level, tutor_id, course_id
+        name,
+        description,
+        format,
+        structure,
+        duration,
+        price,
+        language,
+        level,
+        tutor_id,
+        course_id
     )
     .fetch_one(pool)
     .await;
-if let Ok(course) = course_row {
-    Ok(course)
-} else {
-    Err(EzyTutorError::NotFound("Course id not found".into()))
-}
+    if let Ok(course) = course_row {
+        Ok(course)
+    } else {
+        Err(EzyTutorError::NotFound("Course id not found".into()))
+    }
 }

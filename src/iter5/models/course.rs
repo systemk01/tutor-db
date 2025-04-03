@@ -61,7 +61,6 @@ impl From<web::Json<CreateCourse>> for CreateCourse {
     }
 }
 
-
 impl From<web::Json<UpdateCourse>> for UpdateCourse {
     fn from(update_course: web::Json<UpdateCourse>) -> Self {
         UpdateCourse {

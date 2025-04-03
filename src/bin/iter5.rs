@@ -21,6 +21,7 @@ mod state;
 use routes::*;
 use state::AppState;
 
+
 #[actix_rt::main]
 async fn main() -> io::Result<()> {
     dotenv().ok();
@@ -38,6 +39,7 @@ async fn main() -> io::Result<()> {
             .app_data(shared_data.clone())
             .configure(general_routes)
             .configure(course_routes)
+            .configure(tutor_routes)
     };
     //start HTTP server
     let host_port = env::var("HOST_PORT").expect("HOST:PORT address is not set in .env file");
