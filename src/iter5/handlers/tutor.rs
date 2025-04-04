@@ -72,7 +72,8 @@ mod tests {
             visit_count: Mutex::new(0),
             db: pool
         });
-
+        let resp = get_all_tutors(app_state).await.unwrap();
+        assert_eq!(resp.status(), StatusCode::OK);
     }
 
 
