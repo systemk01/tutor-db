@@ -100,7 +100,7 @@ pub async fn update_course_details_db(
     )
     .fetch_one(pool)
     .await
-    .map_err(|err| EzyTutorError::NotFound("Course id not found".into()))?;
+    .map_err(|_err| EzyTutorError::NotFound("Course id not found".into()))?;
 
     //Construct the parameters for update
 

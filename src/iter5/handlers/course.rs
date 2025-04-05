@@ -112,7 +112,7 @@ mod tests {
         }
     }
 
-    //#[ignore]
+    #[ignore]
     #[actix_rt::test]
     async fn post_course_success() {
         dotenv().ok();
@@ -167,7 +167,7 @@ mod tests {
         assert_eq!(resp.status(), StatusCode::OK);
     }
 
-    //#[ignore]
+    #[ignore]
     #[actix_rt::test]
     async fn delete_test_success() {
         dotenv().ok();

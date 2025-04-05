@@ -21,7 +21,6 @@ mod state;
 use routes::*;
 use state::AppState;
 
-
 #[actix_rt::main]
 async fn main() -> io::Result<()> {
     dotenv().ok();
