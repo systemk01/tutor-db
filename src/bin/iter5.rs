@@ -46,5 +46,7 @@ async fn main() -> io::Result<()> {
     };
     //start HTTP server
     let host_port = env::var("HOST_PORT").expect("HOST:PORT address is not set in .env file");
+    println!("listening on {}", &host_port);
     HttpServer::new(app).bind(&host_port)?.run().await
+    
 }
