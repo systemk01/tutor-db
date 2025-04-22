@@ -59,7 +59,13 @@ impl error::ResponseError for EzyTutorError {
 
 impl fmt::Display for EzyTutorError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self)
+        match self {
+            EzyTutorError::ActixError(s) => write!(f,"Actix Error {}",s),
+            EzyTutorError::DBError(s) => write!(f,"Database Error {}",s),
+            EzyTutorError::NotFound(s) => write!(f,"Error: Not Found {}",s),
+            EzyTutorError::InvalidInput(s) => write!(f,"Invalid Input Error {}",s)
+        }
+        //write!(f, "{}", self)
     }
 }
 
